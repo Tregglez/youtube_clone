@@ -7,16 +7,18 @@ import { Sidebar, Videos } from './'
 
 const Feed = () => {
   const [selectedCategory, setSelectedCategory] = useState('New')
+  const [videos, setVideos] = useState([])
 
   useEffect(() => {
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`);
+    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
+    .then((data) => setVideos(data.items))
   }, [selectedCategory]);
 
   return (
   // this stack has styling on line 6 which allows sidebar to be responsive
   <Stack sx={{ flexDirection: { sx: 'colum', md: 'row' } }}>
     <Box sx={{
-      height: { sx: 'auto', md: '92vh' },
+      height: { sx: 'auto', md: '92vhs' },
       borderRight: '1px solid #3d3d3d',
       px: { sx: 0, md: 2 }
     }}>
@@ -38,7 +40,7 @@ const Feed = () => {
         {selectedCategory} <span style={{ color: '#F31503' }}>videos</span>
       </Typography>
 
-      <Videos videos={[]} />
+      <Videos videos={videos} />
     </Box>
   </Stack>
   )
